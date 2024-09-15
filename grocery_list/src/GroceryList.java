@@ -18,7 +18,7 @@ public class GroceryList {
 	}
 
 	// showMenu
-	public static void showMenu() {
+	public static int showMenu() {
 		System.out.println("Welcome to Grocery List Management! \n");
 		System.out.println("1. Add item to your Grocery List.");
 		System.out.println("2. Remove item from your Grocery List.");
@@ -26,16 +26,30 @@ public class GroceryList {
 		System.out.println("4. Display your Grocery List.");
 		System.out.println("5. Exit.");
 		
+		return input.nextInt();
 	}
 	
 	// addItem
+	public static void additem() {
+		System.out.println("Add Item Called");
+	}
 	
 	//removeItem
+	public static void removeitem() {
+		System.out.println("Remove Item Called");
+	}
 	
 	//checkItem
 	
+	public static void checkitem() {
+		System.out.println("Check Item Called");
+	}
+	
 	// printList
 	
+	public static void printList() {
+		System.out.println("Print List Called");
+	}
 	// Exit
 	
 	
