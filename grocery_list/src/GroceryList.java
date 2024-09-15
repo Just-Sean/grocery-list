@@ -5,16 +5,39 @@ public class GroceryList {
 	private static String[] itemArr = new String[50];
 	private static boolean[] checkedArr = new boolean[50];
 	private static Scanner input = new Scanner(System.in);
-	private static boolean endFlag = false;
+	private static boolean exitFlag = false;
 	
 	public static void main(String[] args) {
 		flowControl();
-	
 	}
 	
 	// flowControl
 	public static void flowControl() {
-		showMenu();
+		while(!exitFlag) {
+			int choice = showMenu();
+			
+			switch(choice) {
+				case 1: 
+					addItem();
+					break;
+				case 2: 
+					removeItem();
+					break;
+				case 3: 
+					checkItem();
+					break;
+				case 4: 
+					printList();
+					break;
+				case 5:
+					handleExit();
+					break;
+				default:
+					printError("Some message");
+				}
+			}
+		
+
 	}
 
 	// showMenu
@@ -30,18 +53,17 @@ public class GroceryList {
 	}
 	
 	// addItem
-	public static void additem() {
+	public static void addItem() {
 		System.out.println("Add Item Called");
 	}
 	
 	//removeItem
-	public static void removeitem() {
+	public static void removeItem() {
 		System.out.println("Remove Item Called");
 	}
 	
 	//checkItem
-	
-	public static void checkitem() {
+	public static void checkItem() {
 		System.out.println("Check Item Called");
 	}
 	
@@ -51,7 +73,13 @@ public class GroceryList {
 		System.out.println("Print List Called");
 	}
 	// Exit
+	public static void handleExit() {
+		System.out.println("Exit Called");
+		exitFlag = true;
+	}
 	
-	
+	public static void printError(String msg) {
+		System.out.println("Error: " + msg);
+	}
 	
 }
