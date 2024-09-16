@@ -16,8 +16,10 @@ public class GroceryList {
 	
 	// flowControl
 	public static void flowControl() {
+		int choice;
+		
 		while(!exitFlag) {
-			int choice = showMenu();
+			choice = showMenu();
 			
 			switch(choice) {
 				case 1: 
@@ -36,7 +38,7 @@ public class GroceryList {
 					handleExit();
 					break;
 				default:
-					handleError("Some message");
+					handleError("There has been an unexpected error. Please try again.");
 				}
 			}
 
@@ -60,9 +62,8 @@ public class GroceryList {
 		String item = input.next();
 		
 		for (String entry : itemsArr) {	
-			
 			if(entry != null && entry.equalsIgnoreCase(item)) {
-				handleError("The item is already in the list. Please try again\n");
+				handleError("The item is already in the list.");
 				return;
 			} 
 		}
@@ -73,34 +74,115 @@ public class GroceryList {
 	
 	//removeItem
 	public static void removeItem() {
-		System.out.println("Remove Item Called");
+		//TODO: This code is duplicated in checkItem. Make method
+		if (input.hasNextInt()) {
+			int index = input.nextInt() - 1;
+			
+			if (itemsArr[index] == null) {
+				handleError("That item does not exist.");
+			}
+	
+			itemsArr[index] = null;
+			shiftArray(index);
+		}
+		else if (input.hasNext()) {
+			String item = input.next();
+			int index = findByName(item);
+			
+			if(index == -1) {
+				handleError("That item does not exist.");
+			}
+			else {
+				itemsArr[index] = null;
+				shiftArray(index);
+			}
+		}
+		
+		return;
 	}
 	
 	//checkItem
 	public static void checkItem() {
-		System.out.println("Check Item Called");
+		System.out.println("Please input the name or number of the item you wish to check.\n");
+		
+		if (input.hasNextInt()) {
+			int index = input.nextInt() - 1;
+			
+			if (itemsArr[index] == null) {
+				handleError("That item does not exist.");
+			}
+	
+			checkedArr[index] = !checkedArr[index];
+		}
+		else if (input.hasNext()) {
+			String item = input.next();
+			int index = findByName(item);
+			
+			if(index == -1) {
+				handleError("That item does not exist.");
+			}
+			else {
+				checkedArr[index] = !checkedArr[index];
+			}
+		}
+		
+		return;
+		
 	}
 	
 	// printList
 	public static void printList() {
+		char marker;
+		
 		for (int i = 0; i < itemsArr.length; i++) {
 			if(itemsArr[i] != null) {
-				char marker = checkedArr[i] ? 'x': '-';
-				System.out.println(i+1 + ". " + marker + " " + itemsArr[i]);
+				marker = checkedArr[i] ? 'x': '-';
+				System.out.println(i+1 + ". " + itemsArr[i] + " [" + marker + "] ");
 			}
 		}
+		
+		System.out.println(); // Just an extra line after the list for readability.
 	}
 	
 	// Exit
 	public static void handleExit() {
 		printList();
-		System.out.println("\nGoodbye!\n");
+		System.out.println("\nGoodbye, and thank you for using Grocery List!\n");
 		exitFlag = true;
 	}
 	
 	//handleError
 	public static void handleError(String msg) {
-		System.out.println("Error: " + msg);
+		System.out.println("Error: " + msg + "  Please try again.\n");
 	}
 	
+	// findByName
+	public static int findByName(String item) {
+		int index = -1;
+		
+		for (int i = 0; i < itemsArr.length; i++) {
+			if (item.equalsIgnoreCase(itemsArr[i])) {
+				index = i;
+				break;
+			}
+		}
+		
+		return index;
+	}
+	
+	public static void shiftArray(int index) {
+		
+		for(int i = index; i < itemsArr.length; i++) {
+			
+			// If the next entry is null, that's the end of the list.
+			if (itemsArr[i + 1] == null) {
+				nextEmpty = i; // Set this so the addItem method knows where to start. 
+				itemsArr[i] = null; // Remove the last item as it is a duplicate.
+				return;
+			}
+			
+			itemsArr[i] = itemsArr[i + 1];
+			
+		}
+	}
 }
