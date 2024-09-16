@@ -83,12 +83,18 @@ public class GroceryList {
 	
 	// printList
 	public static void printList() {
-		System.out.println("Print List Called");
+		for (int i = 0; i < itemsArr.length; i++) {
+			if(itemsArr[i] != null) {
+				char marker = checkedArr[i] ? 'x': '-';
+				System.out.println(i+1 + ". " + marker + " " + itemsArr[i]);
+			}
+		}
 	}
 	
 	// Exit
 	public static void handleExit() {
-		System.out.println("Exit Called");
+		printList();
+		System.out.println("\nGoodbye!\n");
 		exitFlag = true;
 	}
 	
