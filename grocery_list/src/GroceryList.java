@@ -59,11 +59,10 @@ public class GroceryList {
 		System.out.println("Please enter the name of the item you wish to add.");
 		String item = input.next();
 		
-		for (int i = 0; i < itemsArr.length; i++) {	
-			System.out.println("Checking against item: " + itemsArr[i]);
+		for (String entry : itemsArr) {	
 			
-			if(itemsArr[i] != null && itemsArr[i].equalsIgnoreCase(item)) {
-				handleError("The item is already in the list.");
+			if(entry != null && entry.equalsIgnoreCase(item)) {
+				handleError("The item is already in the list. Please try again\n");
 				return;
 			} 
 		}
