@@ -1,12 +1,15 @@
 import java.util.*;
 
 public class GroceryList {
-	// Variables 
-	private static String[] itemArr = new String[50];
+	
+	// Global variables 
+	private static String[] itemsArr = new String[50];
 	private static boolean[] checkedArr = new boolean[50];
 	private static Scanner input = new Scanner(System.in);
 	private static boolean exitFlag = false;
+	private static int nextEmpty = 0;
 	
+	// main
 	public static void main(String[] args) {
 		flowControl();
 	}
@@ -33,10 +36,9 @@ public class GroceryList {
 					handleExit();
 					break;
 				default:
-					printError("Some message");
+					handleError("Some message");
 				}
 			}
-		
 
 	}
 
@@ -47,14 +49,27 @@ public class GroceryList {
 		System.out.println("2. Remove item from your Grocery List.");
 		System.out.println("3. \"Check off\" an item from your Grocery List.");
 		System.out.println("4. Display your Grocery List.");
-		System.out.println("5. Exit.");
+		System.out.println("5. Exit. \n");
 		
 		return input.nextInt();
 	}
 	
 	// addItem
 	public static void addItem() {
-		System.out.println("Add Item Called");
+		System.out.println("Please enter the name of the item you wish to add.");
+		String item = input.next();
+		
+		for (int i = 0; i < itemsArr.length; i++) {	
+			System.out.println("Checking against item: " + itemsArr[i]);
+			
+			if(itemsArr[i] != null && itemsArr[i].equalsIgnoreCase(item)) {
+				handleError("The item is already in the list.");
+				return;
+			} 
+		}
+		
+		itemsArr[nextEmpty]	= item;
+		nextEmpty++;
 	}
 	
 	//removeItem
@@ -68,17 +83,18 @@ public class GroceryList {
 	}
 	
 	// printList
-	
 	public static void printList() {
 		System.out.println("Print List Called");
 	}
+	
 	// Exit
 	public static void handleExit() {
 		System.out.println("Exit Called");
 		exitFlag = true;
 	}
 	
-	public static void printError(String msg) {
+	//handleError
+	public static void handleError(String msg) {
 		System.out.println("Error: " + msg);
 	}
 	
