@@ -72,64 +72,6 @@ public class GroceryList {
 		nextEmpty++;
 	}
 	
-	//removeItem
-	public static void removeItem() {
-		//TODO: This code is duplicated in checkItem. Make method
-		if (input.hasNextInt()) {
-			int index = input.nextInt() - 1;
-			
-			if (itemsArr[index] == null) {
-				handleError("That item does not exist.");
-			}
-	
-			itemsArr[index] = null;
-			shiftArray(index);
-		}
-		else if (input.hasNext()) {
-			String item = input.next();
-			int index = findByName(item);
-			
-			if(index == -1) {
-				handleError("That item does not exist.");
-			}
-			else {
-				itemsArr[index] = null;
-				shiftArray(index);
-			}
-		}
-		
-		return;
-	}
-	
-	//checkItem
-	public static void checkItem() {
-		System.out.println("Please input the name or number of the item you wish to check.\n");
-		
-		if (input.hasNextInt()) {
-			int index = input.nextInt() - 1;
-			
-			if (itemsArr[index] == null) {
-				handleError("That item does not exist.");
-			}
-	
-			checkedArr[index] = !checkedArr[index];
-		}
-		else if (input.hasNext()) {
-			String item = input.next();
-			int index = findByName(item);
-			
-			if(index == -1) {
-				handleError("That item does not exist.");
-			}
-			else {
-				checkedArr[index] = !checkedArr[index];
-			}
-		}
-		
-		return;
-		
-	}
-	
 	// printList
 	public static void printList() {
 		char marker;
@@ -156,8 +98,8 @@ public class GroceryList {
 		System.out.println("Error: " + msg + "  Please try again.\n");
 	}
 	
-	// findByName
-	public static int findByName(String item) {
+	// getIndex for string
+	public static int getIndex(String item) {
 		int index = -1;
 		
 		for (int i = 0; i < itemsArr.length; i++) {
@@ -169,6 +111,8 @@ public class GroceryList {
 		
 		return index;
 	}
+	
+
 	
 	public static void shiftArray(int index) {
 		
@@ -185,4 +129,47 @@ public class GroceryList {
 			
 		}
 	}
+	
+	// Common logic for finding an item by index or name
+		public static int findItem() {
+			if (input.hasNextInt()) {
+				int index = input.nextInt() - 1;
+				if (index >= 0 && index < itemsArr.length && itemsArr[index] != null) {
+					return index;
+				} else {
+					handleError("That item does not exist.");
+					return -1;
+				}
+			} else if (input.hasNext()) {
+				String item = input.next();
+				int index = getIndex(item);
+				if (index == -1) {
+					handleError("That item does not exist.");
+				}
+				return index;
+			}
+			return -1;
+		}
+		
+		// removeItem
+		public static void removeItem() {
+			System.out.println("Please input the name or number of the item you wish to remove.\n");
+			int index = findItem();
+			
+			if (index != -1) {
+				itemsArr[index] = null;
+				checkedArr[index] = false;
+				shiftArray(index);
+			}
+		}
+		
+		// checkItem
+		public static void checkItem() {
+			System.out.println("Please input the name or number of the item you wish to check.\n");
+			int index = findItem();
+			
+			if (index != -1) {
+				checkedArr[index] = !checkedArr[index];
+			}
+		}
 }
