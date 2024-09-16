@@ -72,6 +72,28 @@ public class GroceryList {
 		nextEmpty++;
 	}
 	
+	// removeItem
+	public static void removeItem() {
+		System.out.println("Please input the name or number of the item you wish to remove.\n");
+		int index = findItem();
+		
+		if (index != -1) {
+			itemsArr[index] = null;
+			checkedArr[index] = false;
+			shiftArray(index);
+		}
+	}
+	
+	// checkItem
+	public static void checkItem() {
+		System.out.println("Please input the name or number of the item you wish to check.\n");
+		int index = findItem();
+		
+		if (index != -1) {
+			checkedArr[index] = !checkedArr[index];
+		}
+	}
+	
 	// printList
 	public static void printList() {
 		char marker;
@@ -112,8 +134,7 @@ public class GroceryList {
 		return index;
 	}
 	
-
-	
+	// shiftArray
 	public static void shiftArray(int index) {
 		
 		for(int i = index; i < itemsArr.length; i++) {
@@ -131,7 +152,7 @@ public class GroceryList {
 	}
 	
 	// Common logic for finding an item by index or name
-		public static int findItem() {
+	public static int findItem() {
 			if (input.hasNextInt()) {
 				int index = input.nextInt() - 1;
 				if (index >= 0 && index < itemsArr.length && itemsArr[index] != null) {
@@ -151,25 +172,7 @@ public class GroceryList {
 			return -1;
 		}
 		
-		// removeItem
-		public static void removeItem() {
-			System.out.println("Please input the name or number of the item you wish to remove.\n");
-			int index = findItem();
-			
-			if (index != -1) {
-				itemsArr[index] = null;
-				checkedArr[index] = false;
-				shiftArray(index);
-			}
-		}
+
 		
-		// checkItem
-		public static void checkItem() {
-			System.out.println("Please input the name or number of the item you wish to check.\n");
-			int index = findItem();
-			
-			if (index != -1) {
-				checkedArr[index] = !checkedArr[index];
-			}
-		}
+	
 }
